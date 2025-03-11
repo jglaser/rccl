@@ -514,6 +514,7 @@ if is_msccl_kernels:
           print("-- Generating %s" % os.path.join(gensrc, f"msccl_kernel_{redop}_{ty}.cpp"))
 
           out = f.write
+          out('#define INSIDE_CU_MODULE\n');
           out('#include "msccl_kernel_impl.h"\n#include "nccl_common.h"\n')
           out(
             "MSCCL_IMPL_KERNEL_ENTRY_FUNC_DEVREDOP_TYPE({redop}, {ty_cxx}, false);\n"

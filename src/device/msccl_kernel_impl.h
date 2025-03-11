@@ -15,7 +15,9 @@
 #include "msccl/msccl_struct.h"
 #include "msccl/msccl_kernel.h"
 
-extern __shared__ struct mscclShmemData mscclShmem;
+#ifdef INSIDE_CU_MODULE
+__shared__ struct mscclShmemData mscclShmem;
+#endif
 
 #define MSCCL_MAX_ITER 65536
 
