@@ -213,7 +213,7 @@ unset(CMAKE_REQUIRED_LIBRARIES)
 ### Check for indirect function call support
 if(ENABLE_IFC)
   if("${hip_version_string}" VERSION_GREATER_EQUAL "5.5.30201")
-    set(IFC_ENABLED ON)
+    #set(IFC_ENABLED ON)
     message(STATUS "Indirect function call enabled")
   else()
     set(IFC_ENABLED OFF)
