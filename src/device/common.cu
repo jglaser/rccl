@@ -4,14 +4,12 @@
  * See LICENSE.txt for license information
  ************************************************************************/
 
+#define INSIDE_CU_MODULE
+#define NO_FUNC_CALL
+
 #include "device.h"
 #include "collectives.h"
 #include "common.h"
-
-__shared__ ncclShmemData ncclShmem;
-#if __CUDA_ARCH__ < 700
-  __shared__ ulong2 ncclShmemPerWarp[ncclShmemScratchWarpSize()*(NCCL_MAX_NTHREADS/WARP_SIZE)/sizeof(ulong2)];
-#endif
 
 struct RunWorkNop {
   __device__ void run() {}

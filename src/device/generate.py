@@ -397,6 +397,7 @@ if is_colltrace:
     print("-- Generating %s" % os.path.join(gensrc, "device_table.cpp"))
 
     out = f.write
+    out('#define INSIDE_CU_MODULE\n');
     out('#include "nccl_common.h"\n#include "device.h"\n')
     out("\n")
     
@@ -484,6 +485,7 @@ for name in name_to_funcs.keys():
     print("-- Generating %s" % os.path.join(gensrc, name))
 
     out = f.write
+    out('#define INSIDE_CU_MODULE\n');
     out(
       '#include "common.h"\n'
       '#include "{lower_coll}.h"\n'

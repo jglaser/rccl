@@ -6,6 +6,7 @@
  * See LICENSE.txt for license information
  ************************************************************************/
 
+#define INSIDE_CU_MODULE
 #include "enqueue.h"
 #include "argcheck.h"
 #include "coll_net.h"

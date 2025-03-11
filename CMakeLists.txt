@@ -804,7 +804,7 @@ if (HAVE_PARALLEL_JOBS)
 endif()
 target_compile_options(rccl PRIVATE -Werror=uninitialized -Werror=sometimes-uninitialized)
 target_compile_options(rccl PRIVATE -Wno-format-nonliteral)
-target_compile_options(rccl PRIVATE -fgpu-rdc)               # Generate relocatable device code (required for extern __shared__)
+#target_compile_options(rccl PRIVATE -fgpu-rdc)               # Generate relocatable device code (required for extern __shared__)
 target_compile_options(rccl PRIVATE -fvisibility=hidden)     # Set symbol visibility to hidden by default
 if (HAVE_KERNARG_PRELOAD)
   target_compile_options(rccl PRIVATE -mllvm --amdgpu-kernarg-preload-count=16)
@@ -850,7 +850,7 @@ endif()
 if (ROCTX_ENABLE)
   target_link_libraries(rccl PRIVATE -lroctx64)
 endif()
-target_link_libraries(rccl PRIVATE   -fgpu-rdc)             # Required when linking relocatable device code
+#target_link_libraries(rccl PRIVATE   -fgpu-rdc)             # Required when linking relocatable device code
 target_link_libraries(rccl PRIVATE   Threads::Threads)
 target_link_libraries(rccl INTERFACE hip::host)
 target_link_libraries(rccl PRIVATE   hip::device)

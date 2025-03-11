@@ -153,11 +153,12 @@ struct ncclShmemData {
 #endif
 };
 
-extern __shared__ ncclShmemData ncclShmem;
+#ifdef INSIDE_CU_MODULE
+__shared__ ncclShmemData ncclShmem;
 #if __CUDA_ARCH__ >= 700
-  extern __shared__ ulong2 ncclShmemPerWarp[/*ncclShmemDynamicSize()/sizeof(ulong2)*/];
+  __shared__ ulong2 ncclShmemPerWarp[/*ncclShmemDynamicSize()/sizeof(ulong2)*/];
 #else
-  extern __shared__ ulong2 ncclShmemPerWarp[ncclShmemScratchWarpSize()*(NCCL_MAX_NTHREADS/WARP_SIZE)/sizeof(ulong2)];
+  __shared__ ulong2 ncclShmemPerWarp[ncclShmemScratchWarpSize()*(NCCL_MAX_NTHREADS/WARP_SIZE)/sizeof(ulong2)];
 #endif
 
 __device__ inline void* ncclScratchForWarp(int warp) {
@@ -528,6 +529,7 @@ __device__ __forceinline__ void ncclKernelMain(struct ncclDevKernelArgs const* a
     if (0 <= SpecializedFnId && ncclShmem.funcId == (unsigned)SpecializedFnId) {
       SpecializedRunWorkBatch().run();
     } else {
+#ifndef NO_FUNC_CALL
 #ifdef USE_INDIRECT_FUNCTION_CALL
       if (COLL_UNROLL == 4)
         ncclDevFuncTable_4[ncclShmem.funcId]();
@@ -538,6 +540,7 @@ __device__ __forceinline__ void ncclKernelMain(struct ncclDevKernelArgs const* a
         NCCL_CALL_FUNCTIONS_4(ncclShmem.funcId);
       else
         NCCL_CALL_FUNCTIONS(ncclShmem.funcId);
+#endif
 #endif
     }
 
@@ -598,3 +601,5 @@ __global__ void ncclDevKernelDebug_Generic_4(ncclDevKernelArgs4K NCCL_GRID_CONST
 #endif
 
 #endif
+#endif // INSIDE_CU
+
